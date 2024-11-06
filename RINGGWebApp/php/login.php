@@ -1,9 +1,9 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; // Certifique-se de que 'db.php' inicializa $conn corretamente
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitizar o email
     $senha = $_POST['senha'];
 
     // Buscar usuário no banco de dados
@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: dashboard.php"); // Redirecionar para a página do dashboard
         exit();
     } else {
-        echo "Email ou senha incorretos.";
+        // Evitar informações detalhadas sobre o erro em ambientes de produção
+        echo "Credenciais incorretas.";
     }
 }
 ?>
