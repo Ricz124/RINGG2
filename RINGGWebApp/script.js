@@ -266,4 +266,36 @@ function sendBoardDataToServer() {
     .catch(error => {
         console.error("Erro ao enviar dados:", error);
     });
+
+
+}
+
+function mandarColunaPuBanco() {
+    const jsonData = JSON.stringify(boardData);
+
+    fetch("php/inserirColuna.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: jsonData
+    })
+    .then(response => {
+        // Verifica se a resposta é bem-sucedida
+        if (!response.ok) {
+            return response.text().then(text => { 
+                throw new Error(`Erro na requisição ao servidor: ${text}`);
+            });
+        }
+        // Verifica se a resposta é JSON antes de interpretá-la
+        return response.json().catch(() => {
+            throw new Error("Resposta do servidor não é um JSON válido");
+        });
+    })
+    .then(data => {
+        console.log("Resposta do servidor:", data);
+    })
+    .catch(error => {
+        console.error("Erro ao enviar dados:", error);
+    });
 }
