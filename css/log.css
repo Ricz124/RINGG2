@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
+#b1{
+	background: rgb(194,104,40);
+background: linear-gradient(0deg, rgba(194,104,40,1) 0%, rgba(40,184,155,1) 100%);
+}
+ 
+ button{
+ 	margin-top: 50px;
+	 margin-left: 140px;
+	 border-radius: 6px;
+	 background-color: #91e9d8;
+	 border: 1px solid #55c7b1;
+	 height: 38px;
+	 width: 100px;
+	 font-family: Itim;
+
+	
+ }
+
+#form{
+	margin-left: 450px;
+    margin-right: 500px;
+    height: 190px;
+    width: 370px;
+     border-style: ridge;
+     border: 3px solid black;
+  border-radius: 3px;
+  padding-top: 30px;
+  background-color: #91e9d8;
+}
+
+input{
+	margin-left: 30px;
+	background-color: #55c7b1;
+	border-style: ridge;
+	border-radius: 3px;
+	border: 1px solid #55c7b1;
+	height: 25px;
+	width: 300px;
+}
+
+label{
+	margin-left: 50px;
+}
+
+#logar{
+	margin-left: 140px;
+	border-radius: 6px;
+	background-color: #55c7b1;
+	border: 1px solid #55c7b1;
+	height: 38px;
+	width: 100px;
+	margin-top: 10px;
+
+
+}
+
+#log1{
+	font-family: Itim;
+	margin-left: 600px;
+}
+
+#cad{
+	margin-left: 450px;
+	text-decoration: none;
+	font-family: Itim;
+
+}
+
+#logo2{
+	margin-top: 60px;
+	font-family: Itim;
+
+}
+#ct{
+	font-family: Itim;
+	margin-top: 10px;
+}
+a{
+	text-decoration: none;
+}
