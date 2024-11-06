@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Executar a consulta com os parâmetros corretos
     if ($stmt->execute([':nome' => $nome, ':email' => $email, ':senha' => $senha])) {
         $_SESSION['user_id'] = $conn->lastInsertId(); // Armazenar ID do usuário na sessão
+        $_SESSION['user_nome'] = $nome;
         header("Location: dashboard.php"); // Redirecionar para a página do dashboard
         exit();
     } else {
