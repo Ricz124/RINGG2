@@ -31,7 +31,13 @@ try {
     $response = [];
 
     if ($data) {
-        // Prepara a consulta SQL para inserir as colunas
+        // Prepara a consulta para verificar se a coluna já existe
+        $checkColumnStmt = $pdo->prepare("SELECT COUNT(*) FROM columns WHERE id = :id AND user_id = :user_id");
+
+        // Prepara a consulta para atualizar o título de uma coluna existente
+        $updateColumnStmt = $pdo->prepare("UPDATE columns SET title = :title WHERE id = :id AND user_id = :user_id");
+
+        // Prepara a consulta para inserir uma nova coluna caso não exista
         $insertColumnStmt = $pdo->prepare("INSERT INTO columns (id, user_id, title) VALUES (:id, :user_id, :title)");
 
         // Percorre cada coluna
@@ -40,18 +46,37 @@ try {
             $columnId = $column['id'];
             $columnTitle = $column['title'];
 
-            // Executa a inserção na tabela 'columns'
-            $insertColumnStmt->execute([
+            // Verifica se a coluna já existe para o usuário atual
+            $checkColumnStmt->execute([
                 ':id' => $columnId,
-                ':user_id' => $user_id, // Insere o ID do usuário da sessão
-                ':title' => $columnTitle
+                ':user_id' => $user_id
             ]);
 
-            // Armazena a resposta para a coluna
-            $response["columns"][] = [
-                "columnId" => $columnId,
-                "columnTitle" => $columnTitle,
-            ];
+            // Se a coluna já existe, faz a atualização
+            if ($checkColumnStmt->fetchColumn() > 0) {
+                $updateColumnStmt->execute([
+                    ':id' => $columnId,
+                    ':user_id' => $user_id,
+                    ':title' => $columnTitle
+                ]);
+                $response["columns"][] = [
+                    "columnId" => $columnId,
+                    "columnTitle" => $columnTitle,
+                    "action" => "updated"
+                ];
+            } else {
+                // Caso contrário, faz a inserção
+                $insertColumnStmt->execute([
+                    ':id' => $columnId,
+                    ':user_id' => $user_id,
+                    ':title' => $columnTitle
+                ]);
+                $response["columns"][] = [
+                    "columnId" => $columnId,
+                    "columnTitle" => $columnTitle,
+                    "action" => "inserted"
+                ];
+            }
         }
     } else {
         $response["error"] = "Erro ao decodificar os dados JSON.";
