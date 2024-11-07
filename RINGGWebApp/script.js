@@ -17,10 +17,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Atualiza os dados de um card específico
 function updateCardData(card, key, value) {
-    const columnId = card.closest(".column").dataset.columnId;
+    const columnElement = card.closest(".column");
+    const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
     const cardId = card.dataset.cardId;
+
+    console.log("Column ID:", columnId); // Verifique o ID da coluna
+    console.log("Card ID:", cardId); // Verifique o ID do cartão
+
     const column = boardData.columns.find(col => col.id === columnId);
+    if (!column) {
+        console.error("Column not found for ID:", columnId);
+        return;
+    }
+
     const cardData = column.cards.find(c => c.id === cardId);
+    if (!cardData) {
+        console.error("Card not found for ID:", cardId);
+        return;
+    }
+
     cardData[key] = value;
 }
 
@@ -56,8 +71,16 @@ function addColumn() {
 // Função para adicionar um novo cartão
 function addCard(button) {
     const cardContainer = button.previousElementSibling;
-    const columnId = cardContainer.closest(".column").dataset.columnId;
+    const columnElement = cardContainer.closest(".column");
+    const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
+    console.log("Column ID:", columnId); // Verifique o ID da coluna
+
     const column = boardData.columns.find(col => col.id === columnId);
+    if (!column) {
+        console.error("Column not found for ID:", columnId);
+        return;
+    }
+
     const cardId = `card${column.cards.length + 1}`;
 
     const card = document.createElement("div");
@@ -121,10 +144,24 @@ function allowDrop(event) {
 // Modal de detalhes do cartão
 function openModal(card) {
     activeCard = card;
-    const columnId = card.closest(".column").dataset.columnId;
+    const columnElement = card.closest(".column");
+    const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
     const cardId = card.dataset.cardId;
+
+    console.log("Column ID:", columnId); // Verifique o ID da coluna
+    console.log("Card ID:", cardId); // Verifique o ID do cartão
+
     const column = boardData.columns.find(col => col.id === columnId);
+    if (!column) {
+        console.error("Column not found for ID:", columnId);
+        return;
+    }
+
     const cardData = column.cards.find(c => c.id === cardId);
+    if (!cardData) {
+        console.error("Card not found for ID:", cardId);
+        return;
+    }
 
     document.getElementById("cardModal").style.display = "block";
     document.getElementById("cardTitle").value = cardData.title;
@@ -221,25 +258,58 @@ function saveCheckboxes() {
         completed: li.querySelector("input[type='checkbox']").checked,
     }));
 
-    const columnId = activeCard.closest(".column").dataset.columnId;
+    if (!activeCard) {
+        console.error("No active card selected.");
+        return;
+    }
+
+    const columnElement = activeCard.closest(".column");
+    const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
     const cardId = activeCard.dataset.cardId;
+
+    console.log("Column ID:", columnId); // Verifique o ID da coluna
+    console.log("Card ID:", cardId); // Verifique o ID do cartão
+
     const column = boardData.columns.find(col => col.id === columnId);
+    if (!column) {
+        console.error("Column not found for ID:", columnId);
+        return;
+    }
+
     const cardData = column.cards.find(c => c.id === cardId);
+    if (!cardData) {
+        console.error("Card not found for ID:", cardId);
+        return;
+    }
+
     cardData.tasks = tasks;
 }
 
 function deleteColumn(button) {
     const column = button.parentElement;
-    const columnId = column.dataset.columnId;
+    const columnId = parseInt(column.dataset.columnId, 10); // Certifique-se de que é um número
+
+    console.log("Column ID:", columnId); // Verifique o ID da coluna
+
     boardData.columns = boardData.columns.filter(col => col.id !== columnId);
     column.remove();
 }
 
 function deleteCard() {
     if (activeCard) {
-        const columnId = activeCard.closest(".column").dataset.columnId;
+        const columnElement = activeCard.closest(".column");
+        const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
         const cardId = activeCard.dataset.cardId;
+
+        console.log("Column ID:", columnId); // Verifique o ID da coluna
+        console.log("Card ID:", cardId); // Verifique o ID do cartão
+
         const column = boardData.columns.find(col => col.id === columnId);
+        if (!column) {
+            console.error("Column not found for ID:", columnId);
+            return;
+        }
+
         column.cards = column.cards.filter(c => c.id !== cardId);
 
         activeCard.remove();
