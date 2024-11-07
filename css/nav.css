@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300..900&display=swap');
+
+*{
+  padding: 0;
+  margin: auto;
+  font-family: 'Red Hat Display';
+  font-weight: 500;
+}
+
+nav{
+  background-color: #53B8A6;
+  width: auto;
+  height: 70px;
+  display: flex;
+  margin: 10px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.icone-ringg img{
+  width: 50px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 100%;
+}
+
+.navbar{
+  display: flex;
+}
+
+.navbar ul{
+  display: flex;
+  list-style: none;
+  gap: 15px;
+
+}
+
+.navbar ul a{
+  min-width: 127px;
+  max-height: 18px;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(29, 29, 29);
+  background-color: #8fe0d0;
+  padding: 13px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 1px;
+  transition: all 0.3s;
+
+}
+
+.navbar ul a:hover{
+  padding: 16px;
+  background-color: white;
+  color: black;
+}
+@media screen and (max-width: 890px) {
+
+  .navbar{
+    display: none;
+  }
+  
+}
