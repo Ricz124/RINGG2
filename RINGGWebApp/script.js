@@ -27,7 +27,7 @@ function updateCardData(card, key, value) {
 // Função para adicionar uma nova coluna
 function addColumn() {
     const board = document.getElementById("board");
-    const columnId = `col${boardData.columns.length + 1}`;
+    const columnId = parseInt(`${boardData.columns.length + 1}`);
 
     const column = document.createElement("div");
     column.className = "column";
@@ -181,9 +181,19 @@ function saveColumnTitle(input) {
     input.style.display = "none";
     columnTitle.style.display = "inline";
 
+    // Obtém o ID da coluna a partir do atributo 'data-column-id'
     const columnId = input.closest(".column").dataset.columnId;
-    const column = boardData.columns.find(col => col.id === columnId);
-    column.title = input.value;
+
+    // Busca a coluna no boardData.columns com base no ID
+    const column = boardData.columns.find(col => col.id === parseInt(columnId)); // Usando parseInt para garantir que o ID seja numérico
+
+    // Verifica se a coluna foi encontrada
+    if (column) {
+        // Atualiza o título da coluna
+        column.title = input.value;
+    } else {
+        console.error("Coluna não encontrada:", columnId);
+    }
 }
 
 // Funções para checkbox de tarefas
@@ -266,4 +276,89 @@ function sendBoardDataToServer() {
     .catch(error => {
         console.error("Erro ao enviar dados:", error);
     });
+
+
 }
+
+function mandarColunaPuBanco() {
+    const jsonData = JSON.stringify(boardData);
+
+    fetch("php/inserirColuna.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: jsonData
+    })
+    .then(response => {
+        // Verifica se a resposta é bem-sucedida
+        if (!response.ok) {
+            return response.text().then(text => { 
+                throw new Error(`Erro na requisição ao servidor: ${text}`);
+            });
+        }
+        // Verifica se a resposta é JSON antes de interpretá-la
+        return response.json().catch(() => {
+            throw new Error("Resposta do servidor não é um JSON válido");
+        });
+    })
+    .then(data => {
+        console.log("Resposta do servidor:", data);
+    })
+    .catch(error => {
+        console.error("Erro ao enviar dados:", error);
+    });
+}
+
+// Função para carregar os dados das colunas via AJAX
+function loadColumns() {
+    fetch('php/carregarColunas.php') // Arquivo PHP que retorna o JSON
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Erro:', data.error);
+            } else {
+                displayColumns(data.columns); // Função para exibir as colunas
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar os dados:', error);
+        });
+}
+
+function displayColumns(columns) {
+    const board = document.getElementById("board");
+    board.innerHTML = ''; // Limpa o conteúdo anterior
+
+    columns.forEach(column => {
+        const columnElement = document.createElement("div");
+        columnElement.className = "column";
+        columnElement.draggable = true;
+        columnElement.ondragstart = dragColumn;
+        columnElement.ondragover = allowDrop;
+        columnElement.ondrop = dropColumn;
+
+        // Verifique se o id da coluna está sendo atribuído corretamente
+        columnElement.dataset.columnId = column.id; // Atribui o id da coluna ao dataset
+
+        columnElement.innerHTML = `
+            <h2 onclick="editColumnTitle(this)">${column.title}</h2>
+            <input type="text" onblur="saveColumnTitle(this)" style="display: none;">
+            <div class="card-container" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <button onclick="addCard(this)">Adicionar Card</button>
+            <button onclick="deleteColumn(this)">Deletar Coluna</button>
+        `;
+
+        board.appendChild(columnElement);
+
+        // Atualiza boardData.columns
+        boardData.columns.push({
+            id: column.id,
+            title: column.title,
+            cards: []
+        });
+    });
+}
+
+// Carregar as colunas ao carregar a página
+window.onload = loadColumns;

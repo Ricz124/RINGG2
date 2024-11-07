@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; // Certifique-se de que 'db.php' inicializa $conn corretamente
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
@@ -8,11 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT); // Criptografando a senha
 
     // Inserir no banco de dados
-    $sql = "INSERT INTO users (nome, email, senha) VALUES (:nome, :email, :senha)";
+    $sql = "INSERT INTO users (nome, senha, email) VALUES (:nome, :senha, :email)";
     $stmt = $conn->prepare($sql);
     
+    // Executar a consulta com os parâmetros corretos
     if ($stmt->execute([':nome' => $nome, ':email' => $email, ':senha' => $senha])) {
         $_SESSION['user_id'] = $conn->lastInsertId(); // Armazenar ID do usuário na sessão
+        $_SESSION['user_nome'] = $nome;
         header("Location: dashboard.php"); // Redirecionar para a página do dashboard
         exit();
     } else {
