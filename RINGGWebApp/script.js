@@ -2,6 +2,7 @@ let draggedCard = null;
 let draggedColumn = null;
 let activeCard = null;
 let boardData = { columns: [] };  // JSON que armazenará todas as informações
+let globalCardIdCounter = 1; // Contador global para IDs de cartões
 
 document.addEventListener("DOMContentLoaded", () => {
     const cardTitleInput = document.getElementById("cardTitle");
@@ -73,7 +74,7 @@ function addCard(button) {
     const columnElement = cardContainer.closest(".column");
     const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
     const column = boardData.columns.find(col => col.id === columnId);
-    const cardId = column.cards.length + 1; // Gerar um novo ID sequencial como número
+    const cardId = globalCardIdCounter++; // Gerar um novo ID único globalmente
 
     const card = document.createElement("div");
     card.className = "card";
@@ -448,6 +449,7 @@ function displayCards(columnId, cards) {
         cardElement.dataset.cardId = card.id; // Usar o ID do cartão retornado do banco de dados
         cardElement.dataset.creationDate = card.creationDate;
         cardElement.dataset.color = card.color;
+        cardElement.style.backgroundColor = card.color; // Aplica a cor ao cartão
         cardElement.innerHTML = `
             <span class="card-title" onclick="editCardTitle(this)">${card.title}</span>
             <input type="text" onblur="saveCardTitle(this)" style="display: none;">
