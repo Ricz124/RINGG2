@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateCardData(card, key, value) {
     const columnElement = card.closest(".column");
     const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
-    const cardId = card.dataset.cardId;
+    const cardId = parseInt(card.dataset.cardId, 10); // Certifique-se de que é um número
 
     console.log("Column ID:", columnId); // Verifique o ID da coluna
     console.log("Card ID:", cardId); // Verifique o ID do cartão
@@ -68,20 +68,12 @@ function addColumn() {
     });
 }
 
-// Função para adicionar um novo cartão
 function addCard(button) {
     const cardContainer = button.previousElementSibling;
     const columnElement = cardContainer.closest(".column");
     const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
-    console.log("Column ID:", columnId); // Verifique o ID da coluna
-
     const column = boardData.columns.find(col => col.id === columnId);
-    if (!column) {
-        console.error("Column not found for ID:", columnId);
-        return;
-    }
-
-    const cardId = `card${column.cards.length + 1}`;
+    const cardId = column.cards.length + 1; // Gerar um novo ID sequencial como número
 
     const card = document.createElement("div");
     card.className = "card";
@@ -146,7 +138,7 @@ function openModal(card) {
     activeCard = card;
     const columnElement = card.closest(".column");
     const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
-    const cardId = card.dataset.cardId;
+    const cardId = parseInt(card.dataset.cardId, 10); // Usar o ID do cartão retornado do banco de dados como número
 
     console.log("Column ID:", columnId); // Verifique o ID da coluna
     console.log("Card ID:", cardId); // Verifique o ID do cartão
@@ -265,7 +257,7 @@ function saveCheckboxes() {
 
     const columnElement = activeCard.closest(".column");
     const columnId = parseInt(columnElement.dataset.columnId, 10); // Certifique-se de que é um número
-    const cardId = activeCard.dataset.cardId;
+    const cardId = parseInt(activeCard.dataset.cardId, 10); // Certifique-se de que é um número
 
     console.log("Column ID:", columnId); // Verifique o ID da coluna
     console.log("Card ID:", cardId); // Verifique o ID do cartão
@@ -346,8 +338,6 @@ function sendBoardDataToServer() {
     .catch(error => {
         console.error("Erro ao enviar dados:", error);
     });
-
-
 }
 
 function mandarColunaPuBanco() {
@@ -426,6 +416,77 @@ function loadColumns() {
         });
 }
 
+// Função para carregar os dados dos cartões via AJAX
+function loadCards(columnId) {
+    fetch(`php/carregarCards.php?columnId=${columnId}`) // Arquivo PHP que retorna o JSON
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Erro:', data.error);
+            } else {
+                displayCards(columnId, data.cards); // Função para exibir os cartões
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar os dados:', error);
+        });
+}
+
+function displayCards(columnId, cards) {
+    const columnElement = document.querySelector(`.column[data-column-id="${columnId}"]`);
+    const cardContainer = columnElement.querySelector('.card-container');
+    cardContainer.innerHTML = ''; // Limpa o conteúdo anterior
+
+    cards.forEach(card => {
+        const cardElement = document.createElement("div");
+        cardElement.className = "card";
+        cardElement.draggable = true;
+        cardElement.ondragstart = dragCard;
+        cardElement.ondragover = allowDrop;
+        cardElement.ondrop = dropCard;
+        cardElement.onclick = () => openModal(cardElement);
+        cardElement.dataset.cardId = card.id; // Usar o ID do cartão retornado do banco de dados
+        cardElement.dataset.creationDate = card.creationDate;
+        cardElement.dataset.color = card.color;
+        cardElement.innerHTML = `
+            <span class="card-title" onclick="editCardTitle(this)">${card.title}</span>
+            <input type="text" onblur="saveCardTitle(this)" style="display: none;">
+        `;
+
+        cardContainer.appendChild(cardElement);
+
+        // Atualiza boardData.columns
+        const column = boardData.columns.find(col => col.id === columnId);
+        column.cards.push({
+            id: card.id, // Usar o ID do cartão retornado do banco de dados
+            title: card.title,
+            creationDate: card.creationDate,
+            dueDate: card.dueDate,
+            color: card.color,
+            tasks: JSON.parse(card.tasks) // Converte a string JSON para um objeto JavaScript
+        });
+    });
+}
+
+// Função para carregar as colunas e os cartões ao carregar a página
+function loadColumnsAndCards() {
+    fetch('php/carregarColunas.php') // Arquivo PHP que retorna o JSON
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Erro:', data.error);
+            } else {
+                displayColumns(data.columns); // Função para exibir as colunas
+                data.columns.forEach(column => {
+                    loadCards(column.id); // Carrega os cartões para cada coluna
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar os dados:', error);
+        });
+}
+
 function displayColumns(columns) {
     const board = document.getElementById("board");
     board.innerHTML = ''; // Limpa o conteúdo anterior
@@ -460,5 +521,5 @@ function displayColumns(columns) {
     });
 }
 
-// Carregar as colunas ao carregar a página
-window.onload = loadColumns;
+// Carregar as colunas e os cartões ao carregar a página
+window.onload = loadColumnsAndCards;
