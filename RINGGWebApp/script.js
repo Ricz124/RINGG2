@@ -425,6 +425,11 @@ function loadCards(columnId) {
             if (data.error) {
                 console.error('Erro:', data.error);
             } else {
+                data.cards.forEach(card => {
+                    if (!card.dueDate) {
+                        card.dueDate = ""; // Inicializa dueDate como uma string vazia se não estiver definido
+                    }
+                });
                 displayCards(columnId, data.cards); // Função para exibir os cartões
             }
         })
@@ -463,7 +468,7 @@ function displayCards(columnId, cards) {
             id: card.id, // Usar o ID do cartão retornado do banco de dados
             title: card.title,
             creationDate: card.creationDate,
-            dueDate: card.dueDate,
+            dueDate: card.dueDate || "", // Certifique-se de que dueDate está definido
             color: card.color,
             tasks: JSON.parse(card.tasks) // Converte a string JSON para um objeto JavaScript
         });

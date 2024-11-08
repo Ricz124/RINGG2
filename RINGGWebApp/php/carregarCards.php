@@ -36,6 +36,12 @@ try {
     // Busca os dados dos cartões
     $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Mapeia o campo due_date para dueDate
+    foreach ($cards as &$card) {
+        $card['dueDate'] = $card['due_date'];
+        unset($card['due_date']);
+    }
+
     // Retorna os dados dos cartões como JSON
     echo json_encode(['cards' => $cards]);
 
