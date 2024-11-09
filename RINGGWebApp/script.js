@@ -299,8 +299,33 @@ function deleteColumn(button) {
 
     console.log("Column ID:", columnId); // Verifique o ID da coluna
 
-    boardData.columns = boardData.columns.filter(col => col.id !== columnId);
-    column.remove();
+    // Envia uma requisição para o servidor para deletar a coluna e seus cards
+    fetch(`php/deleteColumn.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ columnId: columnId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro na requisição ao servidor");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Resposta do servidor:", data);
+        if (data.success) {
+            // Remove a coluna da interface após a remoção bem-sucedida no banco de dados
+            boardData.columns = boardData.columns.filter(col => col.id !== columnId);
+            column.remove();
+        } else {
+            console.error("Erro ao deletar a coluna:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Erro ao deletar a coluna:", error);
+    });
 }
 
 function deleteCard() {
