@@ -312,16 +312,41 @@ function deleteCard() {
         console.log("Column ID:", columnId); // Verifique o ID da coluna
         console.log("Card ID:", cardId); // Verifique o ID do cartão
 
-        const column = boardData.columns.find(col => col.id === columnId);
-        if (!column) {
-            console.error("Column not found for ID:", columnId);
-            return;
-        }
+        // Envia uma requisição para o servidor para deletar o card
+        fetch(`php/deleteCard.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ columnId: columnId, cardId: cardId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na requisição ao servidor");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Resposta do servidor:", data);
+            if (data.success) {
+                // Remove o card da interface após a remoção bem-sucedida no banco de dados
+                const column = boardData.columns.find(col => col.id === columnId);
+                if (!column) {
+                    console.error("Column not found for ID:", columnId);
+                    return;
+                }
 
-        column.cards = column.cards.filter(c => c.id !== cardId);
+                column.cards = column.cards.filter(c => c.id !== cardId);
 
-        activeCard.remove();
-        closeModal();
+                activeCard.remove();
+                closeModal();
+            } else {
+                console.error("Erro ao deletar o card:", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao deletar o card:", error);
+        });
     }
 }
 
