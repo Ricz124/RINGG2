@@ -244,6 +244,21 @@ function loadCheckboxes(tasks) {
     });
 }
 
+// Função para deletar as checkboxes marcadas
+function deleteCheckboxes() {
+    const taskList = document.getElementById("taskList");
+    const checkboxes = taskList.querySelectorAll("input[type='checkbox']");
+
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            checkbox.parentElement.remove();
+        }
+    });
+
+    // Salva as alterações no boardData
+    saveCheckboxes();
+}
+
 function saveCheckboxes() {
     const taskList = document.getElementById("taskList").children;
     const tasks = Array.from(taskList).map(li => ({
