@@ -26,6 +26,10 @@ nav{
   border-radius: 100%;
 }
 
+.nav-mob{
+  display: none;
+}
+
 .navbar{
   display: flex;
 }
@@ -190,5 +194,35 @@ footer {
   .navbar{
     display: none;
   }
+
+  .nav-mob{
+    display: flex;
+  }
+
+  .nav-mob ul{
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-mob ul a{
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s;
+  }
+
+  .nav-mob ul a:hover{
+    background-color: white;
+    padding: 5px;
+    border-radius: 100%;
+    color: black;
+  }
+
+  .sec-1{
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  
   
 }

@@ -192,6 +192,9 @@ button {
     cursor: pointer;
 }
 
+.nav-mob{
+    display: none;
+  }
 
 /* Media Queries para responsividade */
 @media (max-width: 768px) {
@@ -203,6 +206,38 @@ button {
     .column {
         max-width: 100%; /* Colunas ocupam 100% da largura em telas menores */
     }
+
+    .navbar{
+        display: none;
+      }
+    
+      .nav-mob{
+        display: flex;
+      }
+    
+      .nav-mob ul{
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+    
+      .nav-mob ul a{
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s;
+      }
+    
+      .nav-mob ul a:hover{
+        background-color: white;
+        padding: 5px;
+        border-radius: 100%;
+        color: black;
+      }
+    
+      .sec-1{
+        flex-direction: column;
+        gap: 20px;
+      }
 }
 
 @media (max-width: 480px) {
