@@ -45,9 +45,7 @@ if (!isset($_SESSION['user_id'])) {
       <header>
         <h1>Espaço de Trabalho</h1>
         <button onclick="addColumn()">Adicionar Coluna</button>
-        <button onclick="printBoardData()">Verificar JSON</button>
-        <button onclick="sendBoardDataToServer()">MandarJSONproServer</button>
-        <button onclick="mandarColunaPuBanco(); mandarCardsPuBanco();">MandarColunaCardBanco</button>
+        <button onclick="mandarColunaPuBanco(); mandarCardsPuBanco();">Salvar Mudanças</button>
       </header>
     
       <main id="board">
