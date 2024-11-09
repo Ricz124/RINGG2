@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 <body>
     <nav>
-        <div class="icone-ringg"><a href="index.html"><img src="../img/img2.jpg"></a></div>
+        <div class="icone-ringg"><a href="http://ricardohoster.byethost7.com/RINGG/index.html"><img src="../img/img2.jpg"></a></div>
         <div class="nav-mob">
           <ul>
             <a href="../quemsomos.html"><li><i class="fa-solid fa-question"></i></li></a>
