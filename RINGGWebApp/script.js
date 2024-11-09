@@ -452,7 +452,7 @@ function displayCards(columnId, cards) {
         cardElement.ondrop = dropCard;
         cardElement.onclick = () => openModal(cardElement);
         cardElement.dataset.cardId = card.id; // Usar o ID do cartão retornado do banco de dados
-        cardElement.dataset.creationDate = card.creationDate;
+        cardElement.dataset.creationDate = card.creationDate; // Definir a data de criação
         cardElement.dataset.color = card.color;
         cardElement.style.backgroundColor = card.color; // Aplica a cor ao cartão
         cardElement.innerHTML = `
@@ -467,7 +467,7 @@ function displayCards(columnId, cards) {
         column.cards.push({
             id: card.id, // Usar o ID do cartão retornado do banco de dados
             title: card.title,
-            creationDate: card.creationDate,
+            creationDate: card.creationDate, // Incluir a data de criação
             dueDate: card.dueDate || "", // Certifique-se de que dueDate está definido
             color: card.color,
             tasks: JSON.parse(card.tasks) // Converte a string JSON para um objeto JavaScript
