@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
         <div class="navbar">
           <div class="op-nav">
             <ul>
-              <a href="../quemsomos.html"><li>Quem Somos</li></a>
+              <a href="../quemsomos.html"><li>Suporte</li></a>
               <a href="php/dashboard.php"><li>Dashboard</li></a>
               <a href="../ajuda.html"><li>Ajuda</li></a>
               <a href="workstation.php"><li>Espaço de Trabalho</li></a>
