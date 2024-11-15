@@ -29,9 +29,9 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Prepara a consulta para buscar os cartões da coluna específica
-    $stmt = $pdo->prepare("SELECT id, title, creation_date, due_date, color, tasks FROM cards WHERE column_id = :column_id");
-    $stmt->execute([':column_id' => $columnId]);
+    // Prepara a consulta para buscar os cartões da coluna específica e do usuário autenticado
+    $stmt = $pdo->prepare("SELECT id, title, creation_date, due_date, color, tasks FROM cards WHERE column_id = :column_id AND user_id = :user_id");
+    $stmt->execute([':column_id' => $columnId, ':user_id' => $user_id]);
 
     // Busca os dados dos cartões
     $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);

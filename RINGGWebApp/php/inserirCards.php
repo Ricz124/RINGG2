@@ -32,13 +32,13 @@ try {
 
     if ($data) {
         // Prepara a consulta para verificar se o card já existe
-        $checkCardStmt = $pdo->prepare("SELECT COUNT(*) FROM cards WHERE id = :id AND column_id = :column_id");
+        $checkCardStmt = $pdo->prepare("SELECT COUNT(*) FROM cards WHERE id = :id AND column_id = :column_id AND user_id = :user_id");
 
         // Prepara a consulta para atualizar um card existente
-        $updateCardStmt = $pdo->prepare("UPDATE cards SET title = :title, creation_date = :creation_date, due_date = :due_date, color = :color, tasks = :tasks WHERE id = :id AND column_id = :column_id");
+        $updateCardStmt = $pdo->prepare("UPDATE cards SET title = :title, creation_date = :creation_date, due_date = :due_date, color = :color, tasks = :tasks WHERE id = :id AND column_id = :column_id AND user_id = :user_id");
 
         // Prepara a consulta para inserir um novo card caso não exista
-        $insertCardStmt = $pdo->prepare("INSERT INTO cards (id, column_id, title, creation_date, due_date, color, tasks) VALUES (:id, :column_id, :title, :creation_date, :due_date, :color, :tasks)");
+        $insertCardStmt = $pdo->prepare("INSERT INTO cards (id, column_id, user_id, title, creation_date, due_date, color, tasks) VALUES (:id, :column_id, :user_id, :title, :creation_date, :due_date, :color, :tasks)");
 
         // Percorre cada coluna
         foreach ($data['columns'] as $column) {
@@ -53,10 +53,11 @@ try {
                 $color = $card['color'];
                 $tasks = json_encode($card['tasks']);
 
-                // Verifica se o card já existe para a coluna atual
+                // Verifica se o card já existe para a coluna atual e para o usuário atual
                 $checkCardStmt->execute([
                     ':id' => $cardId,
-                    ':column_id' => $columnId
+                    ':column_id' => $columnId,
+                    ':user_id' => $user_id
                 ]);
 
                 // Se o card já existe, faz a atualização
@@ -64,6 +65,7 @@ try {
                     $updateCardStmt->execute([
                         ':id' => $cardId,
                         ':column_id' => $columnId,
+                        ':user_id' => $user_id,
                         ':title' => $cardTitle,
                         ':creation_date' => $creationDate,
                         ':due_date' => $dueDate,
@@ -80,6 +82,7 @@ try {
                     $insertCardStmt->execute([
                         ':id' => $cardId,
                         ':column_id' => $columnId,
+                        ':user_id' => $user_id,
                         ':title' => $cardTitle,
                         ':creation_date' => $creationDate,
                         ':due_date' => $dueDate,

@@ -46,5 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <button type="submit">Cadastrar</button>
     </form>
+    <a href="login.php">já tem uma conta?</a>
 </body>
 </html>
