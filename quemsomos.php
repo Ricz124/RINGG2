@@ -1,3 +1,7 @@
+<?php
+session_start()
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +20,7 @@
         <div class="icone-ringg"><a href="http://ricardohoster.byethost7.com/RINGG/index.html"><img src="img/img2.jpg"></a></div>
         <div class="nav-mob">
           <ul>
-            <a href="quemsomos.html"><li><i class="fa-solid fa-question"></i></li></a>
+            <a href="quemsomos.php"><li><i class="fa-solid fa-question"></i></li></a>
             <a href="ajuda.html"><li><i class="fa-solid fa-circle-info"></i></li></a>
             <a href="RINGGWebApp/workstation.php"><li><i class="fa-solid fa-laptop"></i></li></a>
             <a href="RINGGWebApp/php/dashboard.php"><li><i class="fa-solid fa-user"></i></li></a>
@@ -25,7 +29,7 @@
         <div class="navbar">
           <div class="op-nav">
             <ul>
-              <a href="quemsomos.html"><li>Suporte</li></a>
+              <a href="quemsomos.php"><li>Suporte</li></a>
               <a href="RINGGWebApp/php/dashboard.php"><li>Dashboard</li></a>
               <a href="ajuda.html"><li>Ajuda</li></a>
               <a href="RINGGWebApp/workstation.php"><li>Espaço de Trabalho</li></a>
@@ -44,11 +48,12 @@
           Aqui você pode selecionar uma das opções de possíveis motivos pelo qual está tendo dificuldades com o Web-Aplicatívo.
         </div>
             <div class="ass-form">
-                <form action="php/enviarReclamação.php" method="post">
+                <form action="php/enviarMsm.php" method="post">
                     <label for="Motivo do Pedido:"></label>
                     <textarea name="mot_imp" id="mot_imp" cols="60" rows="10"></textarea>
-                      <br>
-                      <button class="enviar" type="submit">ENVIAR</button>
+                    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                    <br>
+                    <button class="enviar" type="submit">ENVIAR</button>
                 </form>
             </div>
       </div>
@@ -63,7 +68,7 @@
           <div class="footer-section">
             <h4>Links Rápidos</h4>
             <ul>
-              <li><a href="quemsomos.html">Suporte</a></li>
+              <li><a href="quemsomos.php">Suporte</a></li>
               <li><a href="ajuda.html">Ajuda</a></li>
               <li><a href="RINGGWebApp/index.html">Aplicativo Web</a></li>
               <li><a href="RINGGWebApp/php/login.php">Entrar</a></li>
