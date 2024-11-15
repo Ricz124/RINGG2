@@ -85,6 +85,16 @@ form{
   gap: 15px;
 }
 
+.ass-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+textarea{
+  width: 90%;
+}
+
 .enviar{
   padding: 20px 60px 20px 60px;
   color: white;
@@ -101,7 +111,7 @@ form{
 
 .banner-nosco img{
   display: flex;
-
+  width: 100%;
 }
 
 
