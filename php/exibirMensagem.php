@@ -74,36 +74,113 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responder Mensagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #53B8A6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        p {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #53B8A6;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #5cb85c;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Responder Mensagem</h1>
-    <form action="exibirMensagem.php" method="post">
-        <label for="id">ID da Mensagem:</label>
-        <input type="text" name="id" id="id" required>
-        <button type="submit">Exibir Mensagem</button>
-    </form>
-
-    <?php if (isset($suporte_id)): ?>
-        <h2>Detalhes da Mensagem</h2>
-        <p><strong>ID da Mensagem:</strong> <?php echo $suporte_id; ?></p>
-        <p><strong>Nome do Usuário:</strong> <?php echo $nome; ?></p>
-        <p><strong>Email do Usuário:</strong> <?php echo $email; ?></p>
-        <p><strong>Mensagem:</strong> <?php echo $mensagem; ?></p>
-        <p><strong>Resposta Atual:</strong> <?php echo ($resposta ? $resposta : 'Nenhuma resposta'); ?></p>
-
-        <h2>Responder à Mensagem</h2>
+    <div class="container">
+        <h1>Responder Mensagem</h1>
         <form action="exibirMensagem.php" method="post">
-            <input type="hidden" name="suporte_id" value="<?php echo $suporte_id; ?>">
-            <textarea name="resposta" id="resposta" cols="60" rows="10"></textarea>
-            <br>
-            <button type="submit">Enviar Resposta</button>
+            <label for="id">ID da Mensagem:</label>
+            <input type="text" name="id" id="id" required>
+            <button type="submit">Exibir Mensagem</button>
         </form>
-    <?php elseif (isset($error)): ?>
-        <p><?php echo $error; ?></p>
-    <?php endif; ?>
 
-    <?php if (isset($success)): ?>
-        <p><?php echo $success; ?></p>
-    <?php endif; ?>
+        <?php if (isset($suporte_id)): ?>
+            <h2>Detalhes da Mensagem</h2>
+            <p><strong>ID da Mensagem:</strong> <?php echo htmlspecialchars($suporte_id); ?></p>
+            <p><strong>Nome do Usuário:</strong> <?php echo htmlspecialchars($nome); ?></p>
+            <p><strong>Email do Usuário:</strong> <?php echo htmlspecialchars($email); ?></p>
+            <p><strong>Mensagem:</strong> <?php echo htmlspecialchars($mensagem); ?></p>
+            <p><strong>Resposta Atual:</strong> <?php echo htmlspecialchars($resposta ? $resposta : 'Nenhuma resposta'); ?></p>
+
+            <h2>Responder à Mensagem</h2>
+            <form action="exibirMensagem.php" method="post">
+                <input type="hidden" name="suporte_id" value="<?php echo htmlspecialchars($suporte_id); ?>">
+                <textarea name="resposta" id="resposta" cols="60" rows="10"></textarea>
+                <br>
+                <button type="submit">Enviar Resposta</button>
+            </form>
+        <?php elseif (isset($error)): ?>
+            <p class="error"><?php echo htmlspecialchars($error); ?></p>
+        <?php endif; ?>
+
+        <?php if (isset($success)): ?>
+            <p class="success"><?php echo htmlspecialchars($success); ?></p>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

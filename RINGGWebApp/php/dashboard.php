@@ -39,6 +39,11 @@ try {
     $stmtCards->execute([':user_id' => $user_id]);
     $cards = $stmtCards->fetchAll(PDO::FETCH_ASSOC);
 
+    // Buscar mensagem e resposta do usuário
+    $stmtMessage = $pdo->prepare("SELECT mensagem, resposta FROM suporte WHERE user_id = :user_id ORDER BY id DESC LIMIT 1");
+    $stmtMessage->execute([':user_id' => $user_id]);
+    $message = $stmtMessage->fetch(PDO::FETCH_ASSOC);
+
 } catch (PDOException $e) {
     // Em caso de erro na conexão ou na execução do SQL
     echo "<h1>Erro ao conectar ao banco de dados: " . $e->getMessage() . "</h1>";
@@ -169,6 +174,30 @@ try {
             margin: 0;
             font-size: 0.8em;
         }
+
+        .message-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-section h2 {
+            color: #53B8A6;
+            margin-bottom: 10px;
+        }
+
+        .message-section p {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .message-section .response {
+            color: #007bff;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -187,6 +216,16 @@ try {
         <?php else: ?>
             <p>Nenhum card prestes a expirar.</p>
         <?php endif; ?>
+
+        <div class="message-section">
+            <h2>Sua Última Mensagem e Resposta</h2>
+            <?php if ($message): ?>
+                <p><strong>Sua Mensagem:</strong> <?php echo htmlspecialchars($message['mensagem']); ?></p>
+                <p class="response"><strong>Resposta:</strong> <?php echo htmlspecialchars($message['resposta'] ? $message['resposta'] : 'Ainda não há resposta.'); ?></p>
+            <?php else: ?>
+                <p>Você ainda não enviou nenhuma mensagem.</p>
+            <?php endif; ?>
+        </div>
 
         <div class="nav-links">
             <a href="../workstation.php">Ir para o Espaço de Trabalho</a>

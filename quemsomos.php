@@ -7,7 +7,7 @@ session_start()
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Página de Suporte ao Usuário</title>
     <script></script>
     <link rel="stylesheet" href="css/QmSomospag.css">
     <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -45,7 +45,7 @@ session_start()
         <div class="titulo-ass">ASSISTÊNCIA</div>
 
         <div class="ass-desc">
-          Aqui você pode selecionar uma das opções de possíveis motivos pelo qual está tendo dificuldades com o Web-Aplicatívo.
+          Aqui você pode enviar uma mensagem para nos informar de algum motivo pelo qual está tendo dificuldades com o Web-Aplicatívo.
         </div>
             <div class="ass-form">
                 <form action="php/enviarMsm.php" method="post">
