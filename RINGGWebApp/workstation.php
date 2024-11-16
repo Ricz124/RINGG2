@@ -76,6 +76,35 @@ if (!isset($_SESSION['user_id'])) {
           <button onclick="deleteCard()">Deletar Card</button>
         </div>
       </div>
-    
+      
+      <footer>
+        <div class="footer-container">
+          <div class="footer-section">
+            <h4>Sobre Nós</h4>
+            <p>RINGG é uma plataforma para apoiar o desenvolvimento acadêmico e pessoal de jovens estudantes.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Links Rápidos</h4>
+            <ul>
+              <li><a href="quemsomos.html">Suporte</a></li>
+              <li><a href="ajuda.html">Ajuda</a></li>
+              <li><a href="RINGGWebApp/index.html">Aplicativo Web</a></li>
+              <li><a href="RINGGWebApp/php/login.php">Entrar</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Siga-nos</h4>
+            <div class="social-icons">
+              <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+              <a href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+              <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+              <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 RINGG. Todos os direitos reservados.</p>
+        </div>
+      </footer>
 </body>
 </html>
