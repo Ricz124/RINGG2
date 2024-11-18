@@ -194,6 +194,17 @@ try {
             margin-bottom: 10px;
         }
 
+        .nav-links{
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .nav-links a:hover{
+            font-size: larger;
+            color: #53B8A6;
+        }
+
         .message-section .response {
             color: #007bff;
             font-weight: bold;
