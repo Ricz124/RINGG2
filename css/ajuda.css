@@ -1,0 +1,38 @@
+.ajuda-corpo{
+    display: flex;
+    flex-direction: column;
+}
+
+.tit-ajuda{
+    display: flex;
+    flex-direction: column;
+    font-size: xx-large;
+}
+
+.box-1{
+    display: flex;
+    gap: 100px;
+    margin: 20px;
+    justify-content: center;
+    box-shadow: 1px 5px 7px 1px rgb(112, 112, 112);
+    border-radius: 7px;
+}
+
+.box-1 img{
+    width: 500px;
+    padding: 20px;
+}
+
+.box-1 span{
+    width: 600px;
+    text-align: center;
+    padding: 20px;
+}
+
+.box-1 span:hover{
+    font-size: x-large;
+}
+
+.box-1 img:hover{
+    width: 1000px;
+}
