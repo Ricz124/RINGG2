@@ -36,3 +36,19 @@
 .box-1 img:hover{
     width: 1000px;
 }
+
+@media screen and (max-width: 890px) {
+
+    .box-1{
+        flex-direction: column;
+    }
+
+    .box-1 span{
+        width: fit-content;
+    }
+    
+    .img{
+        display: flex;
+        width: fit-content;
+    }
+}
